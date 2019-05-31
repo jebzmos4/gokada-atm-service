@@ -25,16 +25,17 @@ class User {
   }
 
   validateWithdrawal(data) {
-    if (validate(data.transactionToken)) {
-      this.logger.info('transaction token valid');
-      return true;
-    } else if (data.amount === '500' || data.amount === '1000') {
-      this.logger.info('valid denomination passed');
-      return true;
-    }
-    this.mongo.getOne();
-    this.logger.info('Invalid transactionToken');
-    return false;
+    console.log(data);
+    this.mongo.fetchOne({ cardDetails: data.atmCard })
+      .then((response) => {
+        console.log(response);
+        if (response[0].amount <= data.amount && validate(data.transactionToken)) {
+          this.logger.info('withdrawal approved');
+          return true;
+        }
+        this.logger.info('not enough balance or invalid token');
+        return false;
+      });
   }
 
   create(data) {
