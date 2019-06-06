@@ -33,8 +33,16 @@ const routes = function routes(server, serviceLocator) {
    */
   server.post({
     path: '/create',
-    name: 'Create user dara',
+    name: 'Create user data',
   }, (req, res) => userHandler.create(req, res));
+
+  /**
+   * GET USER DATA
+   */
+  server.get({
+    path: '/create',
+    name: 'Fetch account details',
+  }, (req, res) => userHandler.enquiry(req, res));
 };
 
 module.exports = routes;

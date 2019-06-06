@@ -112,6 +112,10 @@ class User {
         response: err
       }, httpStatus.BAD_REQUEST));
   }
+
+  enquiry(req, res) {
+    this.logger.info('fetching user account details');
+  }
 }
 
 module.exports = User;

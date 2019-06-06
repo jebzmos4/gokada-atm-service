@@ -2,7 +2,6 @@
  * Created by Morifeoluwa on 06/09/2018.
  * objective: building to scale
  */
-const validate = require('uuid-validate');
 const MongoDBHelper = require('../lib/mongoDBHelper');
 const UserModel = require('../models/user.model');
 
@@ -25,15 +24,13 @@ class User {
   }
 
   validateWithdrawal(data) {
-    console.log(data);
     this.mongo.fetchOne({ cardDetails: data.atmCard })
       .then((response) => {
-        console.log(response);
-        if (response[0].amount <= data.amount && validate(data.transactionToken)) {
+        if (response[0].amount <= data.amount && data.pin) {
           this.logger.info('withdrawal approved');
           return true;
         }
-        this.logger.info('not enough balance or invalid token');
+        this.logger.info('not enough balance or invalid pin');
         return false;
       });
   }
